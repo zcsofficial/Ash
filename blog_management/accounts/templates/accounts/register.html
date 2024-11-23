@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .btn-primary {
+            width: 100%;
+        }
+        .form-container a {
+            text-decoration: none;
+        }
+        .form-error {
+            color: #dc3545;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1><i class="fas fa-user-plus"></i> Register</h1>
+        <form id="registerForm" method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            
+            <!-- First Name -->
+            <div class="mb-3">
+                <label for="id_first_name" class="form-label">First Name</label>
+                <input type="text" id="id_first_name" name="first_name" class="form-control" required>
+                <small id="first_name_error" class="form-error"></small>
+            </div>
+            
+            <!-- Last Name -->
+            <div class="mb-3">
+                <label for="id_last_name" class="form-label">Last Name</label>
+                <input type="text" id="id_last_name" name="last_name" class="form-control" required>
+                <small id="last_name_error" class="form-error"></small>
+            </div>
+            
+            <!-- Username -->
+            <div class="mb-3">
+                <label for="id_username" class="form-label">Username</label>
+                <input type="text" id="id_username" name="username" class="form-control" required>
+                <small id="username_error" class="form-error"></small>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="id_email" class="form-label">Email</label>
+                <input type="email" id="id_email" name="email" class="form-control" required>
+                <small id="email_error" class="form-error"></small>
+            </div>
+
+            <!-- Profile Picture -->
+            <div class="mb-3">
+                <label for="id_profile_picture" class="form-label">Profile Picture</label>
+                <input type="file" id="id_profile_picture" name="profile_picture" class="form-control">
+                <small id="profile_picture_error" class="form-error"></small>
+            </div>
+
+            <!-- Contact Number -->
+            <div class="mb-3">
+                <label for="id_contact_number" class="form-label">Contact Number</label>
+                <input type="tel" id="id_contact_number" name="contact_number" class="form-control" required>
+                <small id="contact_number_error" class="form-error"></small>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="id_password1" class="form-label">Password</label>
+                <input type="password" id="id_password1" name="password1" class="form-control" required>
+                <small id="password1_error" class="form-error"></small>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3">
+                <label for="id_password2" class="form-label">Confirm Password</label>
+                <input type="password" id="id_password2" name="password2" class="form-control" required>
+                <small id="password2_error" class="form-error"></small>
+            </div>
+
+            <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i> Register</button>
+        </form>
+        <p class="text-center mt-3">
+            Already have an account? <a href="{% url 'login' %}">Login</a>.
+        </p>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("registerForm");
+
+            // Error display utility
+            function showError(field, message) {
+                document.getElementById(`${field}_error`).textContent = message || '';
+            }
+
+            // Validation logic
+            form.addEventListener("input", function (e) {
+                const field = e.target.id.replace("id_", ""); // Remove "id_" from input id
+                const value = e.target.value.trim();
+
+                switch (field) {
+                    case "first_name":
+                    case "last_name":
+                        showError(field, value ? "" : "This field is required.");
+                        break;
+                    case "username":
+                        showError(field, value.length >= 4 ? "" : "Must be at least 4 characters long.");
+                        break;
+                    case "email":
+                        showError(field, /\S+@\S+\.\S+/.test(value) ? "" : "Invalid email format.");
+                        break;
+                    case "contact_number":
+                        showError(field, /^[0-9]{10,15}$/.test(value) ? "" : "Enter a valid contact number.");
+                        break;
+                    case "password1":
+                        showError(field, value.length >= 8 ? "" : "Must be at least 8 characters long.");
+                        break;
+                    case "password2":
+                        const password1 = document.getElementById("id_password1").value.trim();
+                        showError(field, value === password1 ? "" : "Passwords do not match.");
+                        break;
+                }
+            });
+
+            // Form submission validation
+            form.addEventListener("submit", function (e) {
+                let valid = true;
+                Array.from(form.elements).forEach(input => {
+                    if (input.type !== "submit" && input.value.trim() === "") {
+                        showError(input.id.replace("id_", ""), "This field is required.");
+                        valid = false;
+                    }
+                });
+                if (!valid) e.preventDefault();
+            });
+        });
+    </script>
+</body>
+</html>

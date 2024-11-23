@@ -1,0 +1,13 @@
+<!-- accounts/templates/accounts/blog_create.html -->
+{% extends "accounts/base_generic.html" %}
+
+{% block title %}Create a New Blog{% endblock %}
+
+{% block content %}
+    <h2>Create a New Blog</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Blog</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,27 @@
+<!-- accounts/templates/accounts/blog_detail.html -->
+{% extends "accounts/base_generic.html" %}
+
+{% block title %}{{ blog.title }}{% endblock %}
+
+{% block content %}
+    <h2>{{ blog.title }}</h2>
+    <p>{{ blog.content }}</p>
+    <p>Posted on {{ blog.created_at }}</p>
+
+    <h3>Comments</h3>
+    <ul>
+        {% for comment in comments %}
+            <li>
+                <strong>{{ comment.user.username }}</strong> on {{ comment.created_at }}: 
+                <p>{{ comment.content }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Post a Comment</h3>
+    <form method="POST">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Submit Comment</button>
+    </form>
+{% endblock %}

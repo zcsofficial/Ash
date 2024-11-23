@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Blog Management{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        header a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+        header a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- accounts/templates/accounts/base_generic.html -->
+<!-- accounts/templates/accounts/base_generic.html -->
+<header>
+    <h1>Blog Management</h1>
+    <nav>
+        <a href="/accounts/">Home</a>
+        <a href="/accounts/create_blog/">Create Blog</a>
+        <a href="/accounts/blog_list/">Blog List</a>
+        <a href="/accounts/logout/">Logout</a>
+    </nav>
+</header>
+
+
+
+    <!-- Main Content Section -->
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 Blog Management. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!-- accounts/templates/accounts/blog_list.html -->
+{% extends "accounts/base_generic.html" %}
+
+{% block title %}Blog List{% endblock %}
+
+{% block content %}
+    <h2>All Blogs</h2>
+    <ul>
+        {% for blog in blogs %}
+            <li>
+                <a href="{% url 'blog_detail' pk=blog.pk %}">{{ blog.title }}</a> - {{ blog.created_at }}
+                <a href="{% url 'blog_delete' id=blog.id %}" class="delete-link">Delete</a>  <!-- Delete link -->
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
