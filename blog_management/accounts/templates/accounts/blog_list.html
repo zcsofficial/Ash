@@ -8,7 +8,7 @@
     <ul>
         {% for blog in blogs %}
             <li>
-                <a href="{% url 'blog_detail' pk=blog.pk %}">{{ blog.title }}</a> - {{ blog.created_at }}
+                <a href="{% url 'blog_detail' id=blog.id %}">{{ blog.title }}</a> - {{ blog.created_at }}
                 <a href="{% url 'blog_delete' id=blog.id %}" class="delete-link">Delete</a>  <!-- Delete link -->
             </li>
         {% endfor %}
